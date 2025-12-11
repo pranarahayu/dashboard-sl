@@ -39,6 +39,6 @@ stands = standings(temp)
 #cht = create_chart(teamz, s_chart)
 
 st.write(stands)
-st.pyplot(cht)
+#st.pyplot(cht)
 st.write(teamz)
 st.write(temp)
