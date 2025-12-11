@@ -36,9 +36,9 @@ if all_tms:
 
 stands = standings(temp)
 s_chart = standings_chart(temp)
-#cht = create_chart(teamz, s_chart)
+cht = create_chart(teamz, s_chart)
 
 st.write(stands)
-#st.pyplot(cht)
+st.pyplot(cht)
 st.write(s_chart)
 st.write(temp)
