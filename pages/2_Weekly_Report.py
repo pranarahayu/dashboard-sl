@@ -40,5 +40,3 @@ cht = create_chart(teamz, s_chart)
 
 st.write(stands)
 st.pyplot(cht)
-st.write(s_chart)
-st.write(temp)
