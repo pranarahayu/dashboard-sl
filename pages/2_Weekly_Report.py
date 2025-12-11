@@ -24,6 +24,7 @@ def load_data(sheets_url):
 df = load_data(st.secrets["matchdata"])
 #df2 = load_data(st.secrets["timeline"])
 
+'''
 gw = st.selectbox('Select GW', pd.unique(df['Gameweek']), key='2')
 teamz = st.multiselect('Select Teams', pd.unique(df['Team']), key='1')
 temp = df[df['Gameweek']<=gw].reset_index(drop=True)
@@ -41,3 +42,5 @@ cht = create_chart(teamz, s_chart)
 
 st.write(stands)
 st.pyplot(cht)
+'''
+st.write(df)
