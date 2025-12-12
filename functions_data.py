@@ -563,3 +563,66 @@ def get_pct(data):
   rank_liga['MoP'] = rank_liga['MoP'].astype(int)
 
   return rank_liga
+
+def get_wdl(data, gw):
+  df = data.copy()
+  df = df[df['Gameweek']<=gw].reset_index(drop=True)
+
+  uk = df[['Team', 'Match', 'Result', 'Gameweek']]
+  uk = uk.groupby(['Team', 'Match', 'Result', 'Gameweek'], as_index=False).nunique()
+
+  uk['Home'] = uk['Match'].str.split(' -').str[0]
+  uk['Away'] = uk['Match'].str.split('- ').str[1]
+  uk['FTHG'] = uk['Result'].str.split(' -').str[0]
+  uk['FTAG'] = uk['Result'].str.split('- ').str[1]
+  uk['FTHG'] = uk['FTHG'].astype(int)
+  uk['FTAG'] = uk['FTAG'].astype(int)
+  uk['GW'] = uk['Gameweek']
+  uk['Rslt'] = 'S'
+  uk['AR'] = 'W'
+
+  for i in range(len(uk)):
+    if (uk['FTHG'][i] > uk['FTAG'][i]):
+      uk['Rslt'][i] = 'W'
+      uk['AR'][i] = 'L'
+    elif (uk['FTHG'][i] < uk['FTAG'][i]):
+      uk['Rslt'][i] = 'L'
+      uk['AR'][i] = 'W'
+    else:
+      uk['Rslt'][i] = 'D'
+      uk['AR'][i] = 'D'
+
+  for i in range(len(uk)):
+    if (uk['Home'][i]!=uk['Team'][i]) and (uk['Rslt'][i]=='W'):
+      uk['Rslt'][i] = 'L'
+    elif (uk['Home'][i]!=uk['Team'][i]) and (uk['Rslt'][i]=='L'):
+      uk['Rslt'][i] = 'W'
+
+  uk = uk[['Team', 'GW', 'Rslt']]
+  uk = uk.sort_values(by='GW').reset_index(drop=True)
+
+  dx = uk.copy()
+  data = pd.DataFrame()
+  team = dx['Team'].unique().tolist()
+  state = dx['GW'].unique().tolist()
+  data['Team'] = team
+  for s in state:
+    data[s] = 0
+  for i in range(len(data)):
+    for j in range(len(dx)):
+      if (dx['Team'][j] == data['Team'][i]):
+        data[dx['GW'][j]][i] = dx['Rslt'][j]
+
+  def bg_col(val):
+    if val == 'W':
+      color = '#7ed957'
+    elif val == 'L':
+      color = '#d9577e'
+    elif val == 'D':
+      color = '#a6a6a6'
+    else:
+      color = 'white'
+    return 'background-color: %s' % color
+  uk = data.style.applymap(bg_col)
+
+  return uk
