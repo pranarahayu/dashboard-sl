@@ -565,7 +565,7 @@ def get_pct(data):
   return rank_liga
 
 def get_wdl(data1, data2):
-  df = data.copy()
+  df = data1.copy()
   temp = data2[['Pos','Team']]
 
   uk = df[['Team', 'Match', 'Result', 'Gameweek']]
