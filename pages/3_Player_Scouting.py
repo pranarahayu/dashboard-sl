@@ -7,10 +7,10 @@ import io
 import openpyxl, yattag
 from openpyxl import load_workbook
 
-from functions_plot import get_radar
-from functions_plot import get_sum90
-from functions_plot import get_pct
-from functions_data import beli_pizza
+from functions_data import get_radar
+from functions_data import get_sum90
+from functions_data import get_pct
+from functions_plot import beli_pizza
 
 st.set_page_config(page_title='Player Scouting', layout='wide')
 st.markdown('# Player Scouting')
