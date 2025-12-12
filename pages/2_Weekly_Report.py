@@ -38,5 +38,7 @@ stands = standings(temp)
 s_chart = standings_chart(temp)
 cht = create_chart(teamz, s_chart)
 
+st.subheader('Standings #'+str(gw))
 st.write(stands)
+st.subheader('Week-wise Standings')
 st.pyplot(cht)
