@@ -336,6 +336,6 @@ def beli_pizza(komp, pos, klub, name, data, mins):
   logo_ax.imshow(club_icon)
   logo_ax.axis("off")
   '''
-  fig.savefig('pizza_'+name+'.jpg', dpi=500, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
+  fig.savefig('pizza.jpg', dpi=500, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
 
   return fig
