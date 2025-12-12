@@ -139,7 +139,7 @@ def create_chart(teamz, data):
       secondary_alpha=0.5,
       highlight_dict=selected_teams,
       figsize=(34, 18),
-      ylim=(-0.1, 20),
+      ylim=(-0.1, 19),
       lw=2.5,
       fontproperties=bold,
   )
