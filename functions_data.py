@@ -564,9 +564,9 @@ def get_pct(data):
 
   return rank_liga
 
-def get_wdl(data, gw):
+def get_wdl(data1, data2):
   df = data.copy()
-  df = df[df['Gameweek']<=gw].reset_index(drop=True)
+  temp = data2[['Pos','Team']]
 
   uk = df[['Team', 'Match', 'Result', 'Gameweek']]
   uk = uk.groupby(['Team', 'Match', 'Result', 'Gameweek'], as_index=False).nunique()
@@ -613,6 +613,8 @@ def get_wdl(data, gw):
       if (dx['Team'][j] == data['Team'][i]):
         data[dx['GW'][j]][i] = dx['Rslt'][j]
 
+  data = pd.merge(temp, data, on='Team', how='left')
+          
   def bg_col(val):
     if val == 'W':
       color = '#7ed957'
