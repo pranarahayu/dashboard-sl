@@ -9,6 +9,7 @@ from openpyxl import load_workbook
 
 from functions_plot import create_chart
 from functions_data import standings
+from functions_data import get_wdl
 from functions_data import standings_chart
 
 st.set_page_config(page_title='Weekly Report', layout='wide')
@@ -37,8 +38,13 @@ if all_tms:
 stands = standings(temp)
 s_chart = standings_chart(temp)
 cht = create_chart(teamz, s_chart)
+wdl = get_wdl(df, gw)
+temp = stands[['Team']]
+wdl = pd.merge(temp,wdl,on='Team',how='left')
 
 st.subheader('Standings #'+str(gw))
 st.write(stands)
 st.subheader('Week-wise Standings')
 st.pyplot(cht)
+st.subheader('Weeks-wise Results')
+st.write(wdl)
