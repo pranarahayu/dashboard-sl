@@ -67,4 +67,4 @@ st.pyplot(gp)
 
 act = st.selectbox('Select Action', ['Goals','Goal','Assist','Create Chance','Tackle','Intercept','Save'], key='4')
 tops = top_act(temp, act)
-st.write(tops.head(5), index=False)
+st.write(tops.head(5))
