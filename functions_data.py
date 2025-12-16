@@ -660,3 +660,12 @@ def det_goal(data1, data2):
   pg = df2['Penalty Goal'].sum()
 
   return goal, og, gavg, pg
+
+def top_act(data, aksi):
+  df = data.copy()
+  df['Goals'] = df['Goal']+df['Penalty Goal']
+  df = df[['Name','Team','MoP',aksi]]
+  df = df.groupby(['Name','Team'], as_index=False).sum()
+  df[aksi+' per 90'] = round(df[aksi]/df['MoP']*90, 2)
+  df = df.sort_values(by=[aksi], ascending=False).reset_index(drop=True)
+  return df
