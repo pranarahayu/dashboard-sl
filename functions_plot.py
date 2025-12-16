@@ -374,3 +374,48 @@ def beli_pizza(komp, pos, klub, name, data, mins):
   fig.savefig('pizza.jpg', dpi=500, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
 
   return fig
+
+def goal_plot(data, gameweek):
+  data = data.copy()
+  data = data[data['Gameweek']<=gameweek]
+
+  fig, ax = plt.subplots(figsize=(20,10))
+  fig.patch.set_facecolor('#ffffff')
+  ax.set_facecolor('#ffffff')
+  ax.grid(axis='y', alpha=0.25, zorder=-10)
+  temp = data['Gameweek'].to_list()
+
+  bar = ax.bar(data['Gameweek'], data['Goals'], color='#346594', width=0.4, hatch='', zorder=10)
+
+  for bar in bar.patches:
+    ax.annotate(bar.get_height(), (bar.get_x() + bar.get_width()/2, bar.get_height()+.5), ha='center', va='center',
+                size=20, xytext=(0, 8), fontproperties=bold, textcoords='offset points',color='#000000')
+
+  ax.set_ylim([0, 40])
+  ax.set_xticks(data['Gameweek'], temp)
+  ax.set_yticks([0, 10, 20, 30, 40])
+
+  ax.spines['top'].set_visible(False)
+  ax.spines['right'].set_visible(False)
+  ax.spines['left'].set_color('#346594')
+  ax.spines['bottom'].set_color('#346594')
+
+  for t in ax.xaxis.get_ticklines():
+    t.set_color('#346594')
+  for t in ax.yaxis.get_ticklines():
+    t.set_color('#346594')
+
+  ax.tick_params(axis='x', colors='#346594')
+  ax.tick_params(axis='y', colors='#346594')
+
+  ax.set_ylabel('Goals scored', color='#346594', fontproperties=bold, size=16)
+  ax.set_xlabel('Gameweeks', color='#346594', fontproperties=bold, size=16)
+
+  for tick in ax.get_xticklabels():
+    tick.set_fontproperties(bold)
+    tick.set_size(20)
+  for tick in ax.get_yticklabels():
+    tick.set_fontproperties(bold)
+    tick.set_size(20)
+
+  return fig
