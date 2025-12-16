@@ -13,6 +13,7 @@ from functions_data import standings
 from functions_data import get_wdl
 from functions_data import standings_chart
 from functions_data import goal_func
+from functions_data import det_goal
 
 st.set_page_config(page_title='Weekly Report', layout='wide')
 st.markdown('# Weekly Report')
@@ -43,6 +44,7 @@ cht = create_chart(teamz, s_chart)
 wdl = get_wdl(temp, stands)
 gl = goal_func(temp)
 gp = goal_plot(gl, gw)
+g, og, gav, pg = det_goal(gl, temp)
 
 st.subheader('Standings #'+str(gw))
 st.write(stands)
@@ -51,4 +53,13 @@ st.pyplot(cht)
 st.subheader('Weeks-wise Results')
 st.write(wdl)
 st.subheader('Weeks-wise Goals')
+col1, col2, col3, col4= st.columns(4)
+with col1:
+    st.metric(label="Goals", value=g)
+with col2:
+    st.metric(label="Own Goals", value=og)
+with col3:
+    st.metric(label="Penalty Goals", value=pg)
+with col4:
+    st.metric(label="Goal Average", value=gav)
 st.pyplot(gp)
