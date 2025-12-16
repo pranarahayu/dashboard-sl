@@ -62,12 +62,4 @@ with col3:
     st.metric(label="Penalty Goals", value=pg)
 with col4:
     st.metric(label="Goal Average", value=gav)
-st.markdown('''<style>
-    [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
-    [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
-    [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
-    [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
-    [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
-    [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
-    </style>''', unsafe_allow_html=True)
 st.pyplot(gp)
