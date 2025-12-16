@@ -650,3 +650,13 @@ def goal_func(datas):
   data = data[['Gameweek','Goals']]
   data = data.groupby(['Gameweek'], as_index=False).sum()
   return data
+
+def det_goal(data1, data2):
+  df1 = data1.copy()
+  df2 = data2.copy()
+  goal = df1['Goals'].sum()
+  og = df2['Own Goal'].sum()
+  gavg = round(goal/(df2['Match'].nunique()), 2)
+  pg = df2['Penalty Goal'].sum()
+
+  return goal, og, gavg, pg
