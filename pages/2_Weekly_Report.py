@@ -15,6 +15,8 @@ from functions_data import standings_chart
 from functions_data import goal_func
 from functions_data import det_goal
 from functions_data import top_act
+from functions_data import gendata
+from functions_data import findata
 
 st.set_page_config(page_title='Weekly Report', layout='wide')
 st.markdown('# Weekly Report')
