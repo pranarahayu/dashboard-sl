@@ -749,3 +749,16 @@ def gendata(data1, data2):
   #fin = pd.concat([fin, datas], ignore_index=True)
 
   return datas
+
+def findata(data1, data2, gw):
+  #gw_list = gw
+  df = data1.copy()
+  db = data2.copy()
+  df = df[df['Gameweek']==gw].reset_index(drop=True)
+  mac = df['Match'].unique().tolist()
+  fin = pd.DataFrame()
+  for i in mac:
+    data = df[df['Match']==i]
+    temp = gendata(data, db)
+    fin = pd.concat([fin, temp], ignore_index=True)
+  return fin
