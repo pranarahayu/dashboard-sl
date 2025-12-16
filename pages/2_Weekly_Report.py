@@ -8,9 +8,11 @@ import openpyxl, yattag
 from openpyxl import load_workbook
 
 from functions_plot import create_chart
+from functions_plot import goal_plot
 from functions_data import standings
 from functions_data import get_wdl
 from functions_data import standings_chart
+from functions_data import goal_func
 
 st.set_page_config(page_title='Weekly Report', layout='wide')
 st.markdown('# Weekly Report')
@@ -39,6 +41,8 @@ stands = standings(temp)
 s_chart = standings_chart(temp)
 cht = create_chart(teamz, s_chart)
 wdl = get_wdl(temp, stands)
+gl = goal_func(temp)
+gp = goal_plot(gl, gw)
 
 st.subheader('Standings #'+str(gw))
 st.write(stands)
@@ -46,3 +50,5 @@ st.subheader('Week-wise Standings')
 st.pyplot(cht)
 st.subheader('Weeks-wise Results')
 st.write(wdl)
+st.subheader('Weeks-wise Goals')
+st.pyplot(gp)
