@@ -67,5 +67,7 @@ st.markdown('''<style>
     [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
     [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
     [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
+    [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
+    [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
     </style>''', unsafe_allow_html=True)
 st.pyplot(gp)
