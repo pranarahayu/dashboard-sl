@@ -669,3 +669,83 @@ def top_act(data, aksi):
   df[aksi+' per 90'] = round(df[aksi]/df['MoP']*90, 2)
   df = df.sort_values(by=[aksi], ascending=False).reset_index(drop=True)
   return df
+
+def gendata(data1, data2):
+  #fin = pd.DataFrame()
+  #gw_list = gw
+  df = data1.copy()
+  #df = df[df['Gameweek'].isin(gw)]
+  #mac = df['Match'].unique().tolist()
+  db = data2.copy()
+
+  st = ['Match','Result','Gameweek','Date','Venue']
+  st_data = df[st]
+  st_data = st_data.groupby('Match', as_index=False).first()
+  st_data['Home Team'] = st_data['Match'].str.split(' - ').str[0]
+  st_data['Away Team'] = st_data['Match'].str.split(' - ').str[1]
+  st_data['Home Score'] = st_data['Result'].str.split(' - ').str[0]
+  st_data['Away Score'] = st_data['Result'].str.split(' - ').str[1]
+  st_data['Date'] = pd.to_datetime(st_data['Date'])
+  st_data['Match Date'] = st_data['Date'].dt.date
+  st_data['KO Time'] = st_data['Date'].dt.time
+  st_data['Day'] = st_data['Date'].dt.day_name()
+  st_data['Week'] = ''
+  for i in range(len(st_data)):
+    if st_data['Gameweek'][i] < 10:
+      st_data['Week'][i] = 'W-0'+str(st_data['Gameweek'][i])
+    else:
+      st_data['Week'][i] = 'W-'+str(st_data['Gameweek'][i])
+  st_data = st_data[['Match','Home Team','Away Team','Home Score','Away Score','Week','Day','Match Date','KO Time','Venue']].rename(columns={'Match Date':'Date'})
+
+  nu = ['Match','Home/Away','Shot on','Shot off','Shot Blocked','Pass','Pass Fail',
+        'Corner','Tackle','Offside','Own Goal','Foul','Yellow Card','Red Card']
+  bp = ['Match','Home/Away','Ball Possession']
+  bp_data = df[bp]
+  nu_data = df[nu]
+  nu_data = nu_data.groupby(['Match','Home/Away'], as_index=False).sum()
+  bp_data = bp_data.groupby(['Match','Home/Away'], as_index=False).max()
+
+  db = db[['Name','Nationality']]
+  da = df[['Match','Home/Away','Name','Starter/Subs']]
+  da = da[da['Starter/Subs']=='Starter'].reset_index(drop=True)
+  da = pd.merge(da, db, on='Name', how='left')
+  da['Status'] = 'Lokal'
+  for i in range(len(da)):
+    if da['Nationality'][i] != 'Indonesia':
+      da['Status'][i] = 'Asing'
+  da = da[['Match','Home/Away','Status']]
+  da = da[da['Status']=='Asing'].reset_index(drop=True)
+  da = da.groupby(['Match','Home/Away'], as_index=False).count()
+
+  nu_data = pd.merge(nu_data, bp_data, on=['Match','Home/Away'], how='left')
+  nu_data = pd.merge(nu_data, da, on=['Match','Home/Away'], how='left')
+
+  nu_data['Shots'] = nu_data['Shot on']+nu_data['Shot off']+nu_data['Shot Blocked']
+  nu_data['Shot on Target Ratio'] = nu_data['Shot on']/nu_data['Shots']
+  hnu_data = nu_data[nu_data['Home/Away']=='Home'].reset_index(drop=True).drop(['Home/Away'], axis=1)
+  hnu_data = hnu_data.rename(columns={'Shot on':'Shots on Target - Home','Shots':'Shots - Home','Shot on Target Ratio':'Shot on Target Ratio - Home',
+                                      'Ball Possession':'Ball Possession (%) - Home','Pass':'Successful Passes - Home',
+                                      'Pass Fail':'Passes Failed - Home','Corner':'Corner Kicks - Home','Tackle':'Successful Tackles - Home',
+                                      'Offside':'Offsides - Home','Own Goal':'Own Goals - Home','Foul':'Fouls Commited - Home',
+                                      'Yellow Card':'Yellow Cards - Home','Red Card':'Red Cards - Home','Status':'Starter Asing - Home'})
+
+  anu_data = nu_data[nu_data['Home/Away']=='Away'].reset_index(drop=True).drop(['Home/Away'], axis=1)
+  anu_data = anu_data.rename(columns={'Shot on':'Shots on Target - Away','Shots':'Shots - Away','Shot on Target Ratio':'Shot on Target Ratio - Away',
+                                      'Ball Possession':'Ball Possession (%) - Away','Pass':'Successful Passes - Away',
+                                      'Pass Fail':'Passes Failed - Away','Corner':'Corner Kicks - Away','Tackle':'Successful Tackles - Away',
+                                      'Offside':'Offsides - Away','Own Goal':'Own Goals - Away','Foul':'Fouls Commited - Away',
+                                      'Yellow Card':'Yellow Cards - Away','Red Card':'Red Cards - Away','Status':'Starter Asing - Away'})
+
+  nu_data = pd.merge(hnu_data, anu_data, on=['Match'], how='left')
+  metriks = ['Match','Starter Asing - Home','Starter Asing - Away','Shots on Target - Home','Shots on Target - Away','Shots - Home',
+             'Shots - Away','Shot on Target Ratio - Home','Shot on Target Ratio - Away',
+             'Ball Possession (%) - Home','Ball Possession (%) - Away','Successful Passes - Home','Successful Passes - Away',
+             'Passes Failed - Home','Passes Failed - Away','Corner Kicks - Home','Corner Kicks - Away','Successful Tackles - Home',
+             'Successful Tackles - Away','Offsides - Home','Offsides - Away','Own Goals - Home','Own Goals - Away','Fouls Commited - Home',
+             'Fouls Commited - Away','Yellow Cards - Home','Yellow Cards - Away','Red Cards - Home','Red Cards - Away']
+  nu_data = nu_data[metriks]
+
+  datas = pd.merge(st_data, nu_data, on=['Match'], how='left')
+  #fin = pd.concat([fin, datas], ignore_index=True)
+
+  return datas
