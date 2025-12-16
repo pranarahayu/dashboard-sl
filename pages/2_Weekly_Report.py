@@ -27,6 +27,7 @@ def load_data(sheets_url):
     xlsx_url = sheets_url.replace("/edit#gid=", "/export?format=xlsx&gid=")
     return pd.read_excel(xlsx_url)
 df = load_data(st.secrets["matchdata"])
+db = load_data(st.secrets["dbase"])
 #df2 = load_data(st.secrets["timeline"])
 
 col1, col2 = st.columns(2)
@@ -39,6 +40,7 @@ with col2:
 if all_tms:
     teamz = temp['Team'].unique().tolist()
 
+datas = findata(temp, db, gw)
 stands = standings(temp)
 s_chart = standings_chart(temp)
 cht = create_chart(teamz, s_chart)
@@ -47,6 +49,8 @@ gl = goal_func(temp)
 gp = goal_plot(gl, gw)
 g, og, gav, pg = det_goal(gl, temp)
 
+st.subheader('Weekly Results')
+st.write(datas)
 st.subheader('Standings #'+str(gw))
 st.write(stands)
 st.subheader('Week-wise Standings')
