@@ -14,6 +14,7 @@ from functions_data import get_wdl
 from functions_data import standings_chart
 from functions_data import goal_func
 from functions_data import det_goal
+from functions_data import top_act
 
 st.set_page_config(page_title='Weekly Report', layout='wide')
 st.markdown('# Weekly Report')
@@ -63,3 +64,7 @@ with col3:
 with col4:
     st.metric(label="Goal Average", value=gav)
 st.pyplot(gp)
+
+act = st.selectbox('Select Action', ['Goals','Goal','Assist','Create Chance','Tackle','Intercept','Save'], key='4')
+tops = top_act(temp, act)
+st.write(tops.head(5), index=False)
