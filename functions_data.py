@@ -628,3 +628,25 @@ def get_wdl(data1, data2):
   uk = data.style.applymap(bg_col)
 
   return uk
+
+def add_og(data):
+  df = data.copy()
+  dfog = df[['Match', 'Gameweek', 'Team', 'Opponent', 'Own Goal']]
+  dfog = dfog.groupby(['Match', 'Gameweek', 'Team', 'Opponent'], as_index=False).sum()
+  dfog['Team'] = dfog['Opponent']
+  dfog['Goal - Own Goal'] = dfog['Own Goal']
+  df_clean = dfog[['Team', 'Gameweek', 'Goal - Own Goal']]
+  df_clean = df_clean.groupby(['Team','Gameweek'], as_index=False).sum()
+  return df_clean
+
+def goal_func(datas):
+  df = datas.copy()
+  temp = add_og(df)
+  data = df[['Team','Gameweek','Goal','Penalty Goal']]
+  data = data.groupby(['Team','Gameweek'], as_index=False).sum()
+  data = pd.merge(data, temp, on=['Team','Gameweek'], how='left')
+  data = data.fillna(0)
+  data['Goals'] = data['Goal']+data['Goal - Own Goal']+data['Penalty Goal']
+  data = data[['Gameweek','Goals']]
+  data = data.groupby(['Gameweek'], as_index=False).sum()
+  return data
