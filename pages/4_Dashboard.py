@@ -89,6 +89,6 @@ try:
       download = st.download_button(label="Download data as Excel", data=buffer.getvalue(),
                                     file_name='player-data_downloaded ('+date+').xlsx',
                                     mime='application/vnd.ms-excel', key = 16)
-      st.dataframe(show_player_data, hide_index=True)
+      st.dataframe(show_player_data.drop(['Player ID'], axis=1), hide_index=True)
 except:
     st.dataframe(db, hide_index=True)
