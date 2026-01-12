@@ -20,7 +20,7 @@ def load_data(sheets_url):
     return pd.read_excel(xlsx_url)
 df = load_data(st.secrets["matchdata"])
 dx = load_data(st.secrets["timeline"])
-db = load_data(st.secrets["players"])
+db = load_data(st.secrets["playersfull"])
 gk = load_data(st.secrets["keepers"])
 xg = load_data(st.secrets["xgdata"])
 
