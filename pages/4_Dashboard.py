@@ -89,6 +89,6 @@ try:
       download = st.download_button(label="Download data as Excel", data=buffer.getvalue(),
                                     file_name='player-data_downloaded ('+date+').xlsx',
                                     mime='application/vnd.ms-excel', key = 16)
-      st.write(show_player_data)
+      st.dataframe(show_player_data, hide_index=True)
 except:
-    st.write(db)
+    st.dataframe(db, hide_index=True)
