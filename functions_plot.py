@@ -54,12 +54,12 @@ path_eff = [path_effects.Stroke(linewidth=2, foreground='#ffffff'),
             path_effects.Normal()]
 
 metrik = ['Name','Team','MoP','Non-penalty goals','Non-penalty xG','NPxG/Shot','Shots','Shot on target ratio','Conversion ratio','Chances created','Assists',
-          'Passes-to-box','Through passes','Passes to final 3rd','Progressive passes','Long passes','Pass accuracy','Successful crosses',
+          'Passes-to-box','Passes to final 3rd','Progressive passes','Long passes','Pass accuracy','Successful crosses',
           'Successful dribbles','Offensive duel won ratio','Tackles','Intercepts','Recoveries','Blocks','Clearances','Aerial duel won ratio',
           'Defensive duel won ratio','Passes','Passes received','Clean sheets','Shots on target faced','xGOT against','Goals conceded','Goals prevented',
           'Save ratio','Sweepers','Crosses claimed']
 
-jamet = ['Name','Team','MoP','Non-penalty goals','Shots','Chances created','Assists','Through passes','Progressive passes',
+jamet = ['Name','Team','MoP','Non-penalty goals','Shots','Chances created','Assists','Progressive passes',
          'Long passes','Successful crosses','Successful dribbles','Tackles','Intercepts','Recoveries','Blocks','Clearances',
          'Total Pass','Aerial Duels','Offensive Duel','Offensive Duel - Won','Defensive Duel','Defensive Duel - Won','Goal',
          'Shot on','Pass','Aerial Won','Penalty','Passes','Clean sheets','Sweepers','Crosses claimed']
@@ -73,19 +73,19 @@ posdict = {'gk':{'position':'Goalkeeper',
                             'Tackles','Intercepts','Recoveries','Blocks','Clearances','Aerial duel won ratio','Defensive duel won ratio']},
            'fb':{'position':'Fullback',
                  'metrics':['Name','Non-penalty goals','Non-penalty xG','Shots','Chances created','Assists',
-                            'Passes-to-box','Through passes','Passes to final 3rd','Progressive passes','Pass accuracy','Successful dribbles','Successful crosses','Offensive duel won ratio',
+                            'Passes-to-box','Passes to final 3rd','Progressive passes','Pass accuracy','Successful dribbles','Successful crosses','Offensive duel won ratio',
                             'Tackles','Intercepts','Recoveries','Blocks','Clearances','Aerial duel won ratio','Defensive duel won ratio']},
            'cm':{'position':'Midfielder',
                  'metrics':['Name','Non-penalty goals','Non-penalty xG','NPxG/Shot','Shots','Shot on target ratio','Chances created','Assists',
-                            'Passes-to-box','Through passes','Passes to final 3rd','Progressive passes','Long passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
+                            'Passes-to-box','Passes to final 3rd','Progressive passes','Long passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
                             'Tackles','Intercepts','Recoveries','Clearances','Defensive duel won ratio']},
            'cam/w':{'position':'Attacking 10/Winger',
                     'metrics':['Name','Non-penalty goals','Non-penalty xG','NPxG/Shot','Shots','Shot on target ratio','Conversion ratio','Chances created','Assists',
-                               'Passes-to-box','Through passes','Passes to final 3rd','Progressive passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
+                               'Passes-to-box','Passes to final 3rd','Progressive passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
                                'Tackles','Intercepts','Recoveries','Defensive duel won ratio']},
            'fw':{'position':'Forward',
                  'metrics':['Name','Non-penalty goals','Non-penalty xG','NPxG/Shot','Shots','Shot on target ratio','Conversion ratio','Chances created','Assists',
-                            'Passes-to-box','Through passes','Progressive passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
+                            'Passes-to-box','Progressive passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
                             'Tackles','Intercepts','Recoveries','Aerial duel won ratio','Defensive duel won ratio']}}
 
 def create_chart(teamz, data):
@@ -168,7 +168,7 @@ def beli_pizza(komp, pos, klub, name, data, mins):
     temp = df[posdict['fw']['metrics']].reset_index(drop=True)
     temp = temp[(temp['Name']==name) | (temp['Name']=='Average FW')].reset_index(drop=True)
 
-    slice_colors = ['#16317d']*8 + ['#a40000']*6 + ['#ffcd12']*5
+    slice_colors = ['#16317d']*8 + ['#a40000']*5 + ['#ffcd12']*5
 
   elif (pos=='Winger') or (pos=='Attacking Midfielder'):
     temp = df[posdict['cam/w']['metrics']].reset_index(drop=True)
@@ -177,19 +177,19 @@ def beli_pizza(komp, pos, klub, name, data, mins):
     else:
       temp = temp[(temp['Name']==name) | (temp['Name']=='Average CAM')].reset_index(drop=True)
 
-    slice_colors = ['#16317d']*8 + ['#a40000']*7 + ['#ffcd12']*4
+    slice_colors = ['#16317d']*8 + ['#a40000']*6 + ['#ffcd12']*4
 
   elif (pos=='Midfielder'):
     temp = df[posdict['cm']['metrics']].reset_index(drop=True)
     temp = temp[(temp['Name']==name) | (temp['Name']=='Average CM')].reset_index(drop=True)
 
-    slice_colors = ['#16317d']*7 + ['#a40000']*8 + ['#ffcd12']*5
+    slice_colors = ['#16317d']*7 + ['#a40000']*7 + ['#ffcd12']*5
 
   elif (pos=='Side Back'):
     temp = df[posdict['fb']['metrics']].reset_index(drop=True)
     temp = temp[(temp['Name']==name) | (temp['Name']=='Average FB')].reset_index(drop=True)
 
-    slice_colors = ['#16317d']*5 + ['#a40000']*8 + ['#ffcd12']*7
+    slice_colors = ['#16317d']*5 + ['#a40000']*7 + ['#ffcd12']*7
 
   elif (pos=='Center Back'):
     temp = df[posdict['cb']['metrics']].reset_index(drop=True)
@@ -243,8 +243,6 @@ def beli_pizza(komp, pos, klub, name, data, mins):
       params[index] = 'Aerial\nduel won\nratio'
     elif value == 'Passes to final 3rd':
       params[index] = 'Passes to\nfinal 3rd'
-    elif value == 'Through passes':
-      params[index] = 'Through\npasses'
     elif value == 'Non-penalty goals':
       params[index] = 'Non-penalty\ngoals'
     elif value == 'Shot on target ratio':
