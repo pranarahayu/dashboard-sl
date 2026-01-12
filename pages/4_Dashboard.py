@@ -7,6 +7,7 @@ import io
 import openpyxl, yattag
 from openpyxl import load_workbook
 from functions_data import get_list
+from functions_data import player_data
 
 st.set_page_config(page_title='Dashboard', layout='wide')
 st.markdown('# Competition Dashboard')
@@ -26,6 +27,8 @@ xg = load_data(st.secrets["xgdata"])
 
 from datetime import date
 date = date.today().strftime("%Y-%m-%d")
+
+mlist = get_list(df)
 
 comps, teams, players = st.tabs(['Competitions', 'Team Stats', 'Player Stats'])
 
@@ -72,8 +75,9 @@ with players:
                            max_value=3060, step=90, key=13)
     metrik = st.multiselect('Select Metrics', mlist, key='14')
   cat = st.selectbox('Select Category', ['Total', 'per 90'], key='15')
-  show_player_data = data_player(fulldata, komp, team, pos, month, venue,
-                                 gw, age, nat, metrik, mins, cat, df22)
+  show_player_data = data_player(df, db, team, month, gws, venue,
+                                 age_group, nats, positions, mins,
+                                 metrik, cat)
 
   buffer = io.BytesIO()
   with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
