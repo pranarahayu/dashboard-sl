@@ -5,12 +5,12 @@ from datetime import date
 import numpy as np
 
 metrik = ['Name','Team','MoP','Non-penalty goals','Non-penalty xG','NPxG/Shot','Shots','Shot on target ratio','Conversion ratio','Chances created','Assists',
-          'Passes-to-box','Through passes','Passes to final 3rd','Progressive passes','Long passes','Pass accuracy','Successful crosses',
+          'Passes-to-box','Passes to final 3rd','Progressive passes','Long passes','Pass accuracy','Successful crosses',
           'Successful dribbles','Offensive duel won ratio','Tackles','Intercepts','Recoveries','Blocks','Clearances','Aerial duel won ratio',
           'Defensive duel won ratio','Passes','Passes received','Clean sheets','Shots on target faced','xGOT against','Goals conceded','Goals prevented',
           'Save ratio','Sweepers','Crosses claimed']
 
-jamet = ['Name','Team','MoP','Non-penalty goals','Shots','Chances created','Assists','Through passes','Progressive passes',
+jamet = ['Name','Team','MoP','Non-penalty goals','Shots','Chances created','Assists','Progressive passes',
          'Long passes','Successful crosses','Successful dribbles','Tackles','Intercepts','Recoveries','Blocks','Clearances',
          'Total Pass','Aerial Duels','Offensive Duel','Offensive Duel - Won','Defensive Duel','Defensive Duel - Won','Goal',
          'Shot on','Pass','Aerial Won','Penalty','Passes','Clean sheets','Sweepers','Crosses claimed']
@@ -24,19 +24,19 @@ posdict = {'gk':{'position':'Goalkeeper',
                             'Tackles','Intercepts','Recoveries','Blocks','Clearances','Aerial duel won ratio','Defensive duel won ratio']},
            'fb':{'position':'Fullback',
                  'metrics':['Name','Non-penalty goals','Non-penalty xG','Shots','Chances created','Assists',
-                            'Passes-to-box','Through passes','Passes to final 3rd','Progressive passes','Pass accuracy','Successful dribbles','Successful crosses','Offensive duel won ratio',
+                            'Passes-to-box','Passes to final 3rd','Progressive passes','Pass accuracy','Successful dribbles','Successful crosses','Offensive duel won ratio',
                             'Tackles','Intercepts','Recoveries','Blocks','Clearances','Aerial duel won ratio','Defensive duel won ratio']},
            'cm':{'position':'Midfielder',
                  'metrics':['Name','Non-penalty goals','Non-penalty xG','NPxG/Shot','Shots','Shot on target ratio','Chances created','Assists',
-                            'Passes-to-box','Through passes','Passes to final 3rd','Progressive passes','Long passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
+                            'Passes-to-box','Passes to final 3rd','Progressive passes','Long passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
                             'Tackles','Intercepts','Recoveries','Clearances','Defensive duel won ratio']},
            'cam/w':{'position':'Attacking 10/Winger',
                     'metrics':['Name','Non-penalty goals','Non-penalty xG','NPxG/Shot','Shots','Shot on target ratio','Conversion ratio','Chances created','Assists',
-                               'Passes-to-box','Through passes','Passes to final 3rd','Progressive passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
+                               'Passes-to-box','Passes to final 3rd','Progressive passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
                                'Tackles','Intercepts','Recoveries','Defensive duel won ratio']},
            'fw':{'position':'Forward',
                  'metrics':['Name','Non-penalty goals','Non-penalty xG','NPxG/Shot','Shots','Shot on target ratio','Conversion ratio','Chances created','Assists',
-                            'Passes-to-box','Through passes','Progressive passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
+                            'Passes-to-box','Progressive passes','Pass accuracy','Successful dribbles','Offensive duel won ratio',
                             'Tackles','Intercepts','Recoveries','Aerial duel won ratio','Defensive duel won ratio']}}
 
 def standings(data):
@@ -349,7 +349,6 @@ def get_sum90(report, tl, xg, db, gk, min):
   df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
   df['Chances created'] = df['Create Chance']
   df['Assists'] = df['Assist']
-  df['Through passes'] = df['Pass - Through Pass']
   df['Progressive passes'] = df['Pass - Progressive Pass']
   df['Long passes'] = df['Pass - Long Ball']
   df['Successful crosses'] = df['Cross']
@@ -427,7 +426,7 @@ def get_sum90(report, tl, xg, db, gk, min):
   p90['Save ratio'] = df_sum['Save ratio']
 
   p90 = p90[metrik]
-  p90['Name'] = p90['Name'].str.strip()
+  #p90['Name'] = p90['Name'].str.strip()
 
   pos = db[['Name','Position']]
   data_full = pd.merge(p90, pos, on='Name', how='left')
