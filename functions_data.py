@@ -801,7 +801,7 @@ def get_list(data):
   metrik = list(df)
   return metrik
 
-  def data_player(data1, data2, team, month, gw, venue, age, nat, pos, mins, metrik, cat):
+def data_player(data1, data2, team, month, gw, venue, age, nat, pos, mins, metrik, cat):
   df = data1.copy()
   from datetime import date
   df['Date'] = pd.to_datetime(df['Date'])
