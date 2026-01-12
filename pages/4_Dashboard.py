@@ -37,7 +37,7 @@ with comps:
 with teams:
   st.write('Hai')
 with players:
-  col1, col2, col3, col4 = st.columns(5)
+  col1, col2, col3, col4, col5 = st.columns(5)
   with col1:
     season = st.selectbox('Select Season', ['2025-26'], key='1')
     data = df.copy()
