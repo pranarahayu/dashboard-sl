@@ -30,7 +30,7 @@ date = date.today().strftime("%Y-%m-%d")
 dfx = df.copy()
 dfx['Date'] = pd.to_datetime(dfx['Date'])
 dfx['Month'] = dfx['Date'].dt.strftime('%B')
-dfx = pd.merge(dfx, data2, on='Player ID', how='left')
+dfx = pd.merge(dfx, db, on='Player ID', how='left')
 
 mlist = get_list(df)
 
