@@ -803,9 +803,6 @@ def get_list(data):
 
 def data_player(data1, data2, team, month, gw, venue, age, nat, pos, mins, metrik, cat):
   df = data1.copy()
-  from datetime import date
-  df['Date'] = pd.to_datetime(df['Date'])
-  df['Month'] = df['Date'].dt.strftime('%B')
   df = pd.merge(df, data2, on='Player ID', how='left')
   db = data2[['Player ID','Nickname']]
   dbx = data2.copy()
