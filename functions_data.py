@@ -788,7 +788,7 @@ def get_list(data):
   df['Pass Accuracy'] = round(df['Pass']/df['Total Pass'],2)
   df['Aerial Won Ratio'] = round(df['Aerial Won']/df['Aerial Duels'],2)
 
-  jatuh = ['Player ID','Team','MoP','Goals Contribution','Goals','Assist','Red Card','Yellow Card',
+  jatuh = ['MoP','Goals Contribution','Goals','Assist','Red Card','Yellow Card',
            'Chances Created','Key Pass','Goal','Penalty Goal','Goal - Open Play','Goals - Set Pieces',
            'Goals - Inside Box','Goal - Outside Box','Goal - Left Foot','Goal - Right Foot','Goal - Header',
            'Goal - Other Bodies Part','Shots','Shot on','Shot off','Shot Blocked','Shot on Target Ratio','Conversion Ratio',
@@ -846,6 +846,8 @@ def data_player(data1, data2, team, month, gw, venue, age, nat, pos, mins, metri
            'Fantasy Assist - Own goal by pass/cross','Fantasy Assist - Own goal by rebound','Nationality',
            'Nat. Status','Age Group','Age','DoB','Month','Name_x','Name_y']
 
+  fix = ['Player ID','Team]
+
   df = df.drop(jatuh, axis=1)
   df = df.groupby(['Player ID','Team'], as_index=False).sum()
 
@@ -863,7 +865,7 @@ def data_player(data1, data2, team, month, gw, venue, age, nat, pos, mins, metri
   dfx = pd.merge(df, temp, on='Player ID', how='left')
   #dfx = df.copy()
   datafull = dfx[dfx['MoP'] >= mins].reset_index(drop=True)
-  datafull = datafull[mt_list]
+  datafull = datafull[fix+mt_list]
   fintot = pd.merge(db, datafull, on='Player ID', how='right')
 
   df_for_p90 = df[df['MoP'] > 0].reset_index(drop=True)
@@ -887,7 +889,7 @@ def data_player(data1, data2, team, month, gw, venue, age, nat, pos, mins, metri
   p902 = pd.merge(p90, temp, on='Player ID', how='left')
   #p902 = p90.copy()
   data90 = p902[p902['MoP'] >= mins].reset_index(drop=True)
-  data90 = data90[mt_list]
+  data90 = data90[fix+mt_list]
 
   fin90 = pd.merge(db, data90, on='Player ID', how='right')
 
