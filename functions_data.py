@@ -803,7 +803,7 @@ def get_list(data):
 
 def data_player(data1, data2, team, month, gw, venue, age, nat, pos, mins, metrik, cat):
   df = data1.copy()
-  db = data2[['Player ID','Nickname']]
+  db = data2[['Player ID','Nickname', 'Age', 'Position', 'Nationality']]
   dbx = data2.copy()
   gw_list = gw
   vn_list = venue
@@ -846,7 +846,7 @@ def data_player(data1, data2, team, month, gw, venue, age, nat, pos, mins, metri
            'Fantasy Assist - Own goal by pass/cross','Fantasy Assist - Own goal by rebound','Nationality',
            'Nat. Status','Age Group','Age','DoB','Month','Name_x','Name_y']
 
-  fix = ['Player ID','Team','Age','Position','Nationality']
+  fix = ['Player ID','Team']
 
   df = df.drop(jatuh, axis=1)
   df = df.groupby(['Player ID','Team'], as_index=False).sum()
