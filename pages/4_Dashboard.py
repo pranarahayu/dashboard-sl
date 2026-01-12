@@ -27,8 +27,10 @@ xg = load_data(st.secrets["xgdata"])
 
 from datetime import date
 date = date.today().strftime("%Y-%m-%d")
-df['Date'] = pd.to_datetime(df['Date'])
-df['Month'] = df['Date'].dt.strftime('%B')
+dfx = df.copy()
+dfx['Date'] = pd.to_datetime(dfx['Date'])
+dfx['Month'] = dfx['Date'].dt.strftime('%B')
+dfx = pd.merge(dfx, data2, on='Player ID', how='left')
 
 mlist = get_list(df)
 
@@ -42,7 +44,7 @@ with players:
   col1, col2, col3, col4, col5 = st.columns(5)
   with col1:
     season = st.selectbox('Select Season', ['2025-26'], key='1')
-    data = df.copy()
+    data = dfx.copy()
     team = st.multiselect('Select Teams', pd.unique(data['Team']), key='2')
     all_teams = st.checkbox('Select All Teams', key='3')
     if all_teams:
@@ -77,7 +79,7 @@ with players:
                            max_value=3060, step=90, key=13)
     metrik = st.multiselect('Select Metrics', mlist, key='14')
   cat = st.selectbox('Select Category', ['Total', 'per 90'], key='15')
-  show_player_data = data_player(df, db, team, month, gws, venue,
+  show_player_data = data_player(dfx, db, team, month, gws, venue,
                                  age_group, nats, positions, mins,
                                  metrik, cat)
 
