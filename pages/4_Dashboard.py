@@ -7,7 +7,7 @@ import io
 import openpyxl, yattag
 from openpyxl import load_workbook
 from functions_data import get_list
-from functions_data import player_data
+from functions_data import data_player
 
 st.set_page_config(page_title='Dashboard', layout='wide')
 st.markdown('# Competition Dashboard')
