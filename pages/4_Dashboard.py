@@ -27,6 +27,8 @@ xg = load_data(st.secrets["xgdata"])
 
 from datetime import date
 date = date.today().strftime("%Y-%m-%d")
+df['Date'] = pd.to_datetime(df['Date'])
+df['Month'] = df['Date'].dt.strftime('%B')
 
 mlist = get_list(df)
 
